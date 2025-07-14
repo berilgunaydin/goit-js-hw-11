@@ -16,6 +16,7 @@ form.addEventListener('submit', e => {
   const enteredValue = input.value.trim();
   clearGallery();
   showLoader();
+
   if (!enteredValue) {
     hideLoader();
     return iziToast.error({
@@ -24,9 +25,10 @@ form.addEventListener('submit', e => {
       position: 'topRight',
     });
   }
+
   fetchImages(enteredValue)
     .then(resolve => {
-      if (resolve.data.hits.length <= 0) {
+      if (resolve.hits.length <= 0) { 
         hideLoader();
         iziToast.error({
           title: 'Error',
@@ -37,12 +39,12 @@ form.addEventListener('submit', e => {
         form.reset();
         return;
       }
-      createGallery(resolve.data.hits);
+      createGallery(resolve.hits); 
       hideLoader();
       form.reset();
     })
     .catch(err => {
-      hideLoader(); 
+      hideLoader();
       iziToast.error({
         title: 'Error',
         message: err.message,
